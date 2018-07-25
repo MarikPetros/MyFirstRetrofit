@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">MyFirstRetrofit</string>
+    <string name="search_title">GitUser</string>
+    <string name="search_hint">Search git user by name</string>
+</resources>
