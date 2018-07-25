@@ -9,6 +9,6 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 
 public interface GitUserProvider {
-    @GET("users/{username}")
+    @GET("search/users/{username}?per_page=25")
     Call<List<GitUser>> listUsersByname(@Path("username") String name);
 }
