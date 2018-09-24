@@ -10,16 +10,18 @@ import android.view.MenuItem;
 import android.widget.SearchView;
 
 import com.example.marik.myfirstretrofit.adapter.GitUsersListAdapter;
-import com.example.marik.myfirstretrofit.model.GitUser;
-import com.example.marik.myfirstretrofit.retrofit.GitUserProvider;
+import com.example.marik.myfirstretrofit.client.ApiManager;
+import com.example.marik.myfirstretrofit.client.GitUser;
 
 import java.util.List;
 
 import retrofit2.Call;
-import retrofit2.Retrofit;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
     private GitUsersListAdapter listAdapter;
+    private List<GitUser> gitUsers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,26 +33,34 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onNewIntent(Intent intent) {
-      //  ...
+        //  ...
         handleIntent(intent);
     }
 
     private void handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
+            int limit = 15;
             //use the query to search your data somehow
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("https://api.github.com/")
-                    .build();
-            GitUserProvider gitUserProvider = retrofit.create(GitUserProvider.class);
-            Call<List<GitUser>> gitUserCall = gitUserProvider.listUsersByname(query);
-            listAdapter = new GitUsersListAdapter(gitUserCall);
+            Call<List<GitUser>> gitUserCall = ApiManager.gitClientApi().getUsersByName(query,limit);
+            gitUserCall.enqueue(new Callback<List<GitUser>>() {
+                @Override
+                public void onResponse(Call<List<GitUser>> call, Response<List<GitUser>> response) {
+                    gitUsers = response.body();
+                }
+
+                @Override
+                public void onFailure(Call<List<GitUser>> call, Throwable t) {
+
+                }
+            });
+            listAdapter = new GitUsersListAdapter(gitUsers);
         }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.options_menu,menu);
+        getMenuInflater().inflate(R.menu.options_menu, menu);
 
         // Associate searchable configuration with the SearchView
         SearchManager searchManager =

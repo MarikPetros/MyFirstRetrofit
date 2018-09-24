@@ -8,13 +8,13 @@ import com.example.marik.myfirstretrofit.R;
 
 class GitUserViewHolder extends RecyclerView.ViewHolder{
     TextView mName;
-    TextView mCompany;
-    TextView mLocation;
+    TextView mUrl;
+    TextView mOrganization;
 
     public GitUserViewHolder(View itemView) {
         super(itemView);
         mName = itemView.findViewById(R.id.user_name);
-        mCompany = itemView.findViewById(R.id.user_company);
-        mLocation = itemView.findViewById(R.id.user_location);
+        mUrl = itemView.findViewById(R.id.user_url);
+        mOrganization = itemView.findViewById(R.id.user_organization);
     }
 }

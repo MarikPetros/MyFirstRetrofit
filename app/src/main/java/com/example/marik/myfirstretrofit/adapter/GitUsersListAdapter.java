@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.marik.myfirstretrofit.R;
-import com.example.marik.myfirstretrofit.model.GitUser;
+import com.example.marik.myfirstretrofit.client.GitUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,9 +29,9 @@ public class GitUsersListAdapter extends RecyclerView.Adapter<GitUserViewHolder>
     @Override
     public void onBindViewHolder(@NonNull GitUserViewHolder holder, int position) {
         GitUser gitUser = gitUsers.get(position);
-        holder.mName.setText(gitUser.getName());
-        holder.mCompany.setText(gitUser.getCompany());
-        holder.mLocation.setText(gitUser.getLocation());
+        holder.mName.setText(gitUser.getLogin());
+        holder.mUrl.setText(gitUser.getUrl());
+        holder.mOrganization.setText(gitUser.getOrganizations_url());
     }
 
     @Override
